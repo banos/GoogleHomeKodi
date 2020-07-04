@@ -4,6 +4,8 @@
 
 // init project
 const express = require('express');
+const https = require('https');
+const fs = require('fs');
 const bodyParser = require('body-parser');
 const app = express();
 const Helper = require('./helpers.js');
@@ -245,6 +247,13 @@ app.get('/', (request, response) => {
 app.use(handleError);
 
 // listen for requests :)
-const listener = app.listen(config.globalConf.listenerPort, () => {
+// const listener = app.listen(config.globalConf.listenerPort, () => {
+//     console.log(`Your app is listening on port ${listener.address().port}`);
+// });
+const listener = https.createServer({
+    key: fs.readFileSync(config.globalConf.sslKey),
+    cert: fs.readFileSync(config.globalConf.sslCert),
+    passphrase: config.globalConf.sslPassphrase
+}, app).listen(config.globalConf.listenerPort, () => {
     console.log(`Your app is listening on port ${listener.address().port}`);
 });

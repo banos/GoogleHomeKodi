@@ -1,0 +1,12 @@
+create firewall ingress rule -> target 'kodi-router'
+static ip (kod1)
+create VM (f1-micro, debian10)
+allow ssh
+add ssh key
+assign static ip to VM (kod1)
+assign network tag 'kodi-router'
+install git, npm
+npm install
+generate ssl cert (openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365)
+create/get kodi-hosts.config.js
+nohup node server.js &
