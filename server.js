@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const Helper = require('./helpers.js');
 const LoadConfig = require('./config.js');
+const { request } = require('http');
 const config = new LoadConfig();
 const ResponseException = require('./exceptions.js').ResponseException;
 
@@ -60,7 +61,7 @@ const authenticate = function(request, response, next) {
     let requestToken = request.body.token;
 
     if (!requestToken) {
-        console.log('401 - Missing request body');
+        console.log(`401 - Missing access token ${request.query}`);
         throw new ResponseException('401 - Missing access token', 401);
     }
 
